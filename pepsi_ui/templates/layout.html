@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+       
+        <link rel="stylesheet" href="{% static 'styles.css'%}">
+        
+    </head>
+    <body>
+        
+        {% block body %}
+        {% endblock %}
+    </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const menu = document.querySelector(".menu");
+            const ham = document.querySelector(".ham");
+          
+            // Start hidden
+            menu.style.display = "none";
+          
+            ham.addEventListener("click", () => {
+              if (menu.classList.contains("menuopen")) {
+                // Switch to closing animation
+                menu.classList.remove("menuopen");
+                menu.classList.add("menuclose");
+              } else {
+                // Switch to opening animation
+                menu.style.display = "block"; // show menu immediately
+                menu.classList.remove("menuclose");
+                menu.classList.add("menuopen");
+              }
+          
+              // Optional: toggle a class on the hamburger itself
+              ham.classList.toggle("tog");
+            });
+          
+            // If your closing animation should hide menu after finishing:
+            menu.addEventListener(
+              "animationend",
+              () => {
+                if (menu.classList.contains("menuclose")) {
+                  menu.style.display = "none";
+                }
+              },
+              { once: false } // keep listening for future clicks
+            );
+          });
+
+    </script>
+</html>

@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block title %}ADD Flavor{% endblock %}
+
+{% block body %}
+
+<div style="padding: 40%;padding-top: 10%;">
+<div class="card" style="align-items: center;justify-content: center;display: flex;height: 50%;width:180px;padding: 50%;">
+<form method="post" action="{% url 'add' %}">
+    {% csrf_token %}
+    <label>FLAVOR NAME </label><input type="text" name="name" autofocus required><br>
+    <label>UNITS</label><input type="number" name="units" required><br>
+    <label>POSTING ID  </label><input type="number" name="posting_number" required><br>
+    <input type="submit">
+</form>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+
+{% block title %}Main{% endblock %}
+            
+
+{% block body %}
+{% include 'navbar.html' %}
+<h1 class="card" style="text-align: center;background-color: cyan;">INVENTORY LIST</h1>
+        {% for i in data %}
+        
+       <h1 class="card" id="{{i.id}}"> {{i.name}}<br>
+        Units in stock: <div id="units-{{i.id}}" style="display: inline;">{{i.units}}</div>
+        <form style="display: none" id="unit-{{i.id}}" method="post" action="{% url 'update' i.id %}">
+                {% csrf_token %}
+                <input type="number" name="units" style="height: 40px;position: relative;top:-15px;font-size: 40%;width: 10%;" required>
+                <input type="submit" value="✅" style="position: relative;font-size: 40px;top:-5px">
+        </form>
+        <button id="btn-{{i.id}}" onclick="dosomething('{{i.id}}')" style="font-size:35px;gap:20px;position: relative;top:-5px;background-color: skyblue;">Update Units</button>
+
+        <br>Item Number: {{i.posting_number}}</h1>
+        
+
+
+
+        {% endfor %}
+        <script>
+                function dosomething(id){
+                let idval = document.querySelector(`#unit-${id}`);
+                let btn = document.querySelector(`#btn-${id}`)
+                if(idval.style.display == 'none'){
+                        idval.style.display = 'inline';
+                        btn.innerHTML = "❌";
+                } 
+                else {
+                        btn.innerHTML = "Update Units"
+                        idval.style.display = 'none';
+                }
+                }
+                
+                document.querySelectorAll("form").forEach(form=>form.addEventListener("submit",(e)=>{
+                        
+                        e.preventDefault();
+
+                        const theForm = e.target;
+                        const parent = theForm.parentElement;
+                        fetch(`api/update/${parent.id}`,{
+                                method:"POST",
+                                body:new FormData(e.target)
+                        }).then( ()=>                    
+                        fetch(`api/id/${parent.id}`)
+                        .then(response=>response.json())
+                        .then(data=>{
+                                console.log(data);
+                                document.querySelector(`#units-${parent.id}`).textContent = data.units;
+                                dosomething(parent.id);
+                        }))
+                       
+                }))
+        </script>
+{% endblock %}
