@@ -1,13 +1,19 @@
 from django.shortcuts import render,redirect
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import Flavor_serializer
 from django.http.response import JsonResponse, HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from .models import * 
 from . import api
 
+@api_view(["GET"])
 def data(request):
-    return JsonResponse(api.show())
-
+    #return JsonResponse(api.show())
+    flavor = Flavor.objects.all()
+    flavor_api = Flavor_serializer(flavor)
+    return Response(flavor_api)
 
 def getid(request,id):
     try:

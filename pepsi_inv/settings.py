@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'pepsi_ui',
     "crispy_forms",
     "crispy_tailwind",
-   
+    "rest_framework",
 
 ]
 
