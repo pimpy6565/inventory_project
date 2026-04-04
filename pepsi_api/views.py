@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import Flavor_serializer
@@ -25,11 +26,11 @@ def getid(request,id):
     except Exception as e:
         return Response({'error':"Dont Exist"})
 
-@api_view(["PUT"])
+@api_view(["PATCH"])
 def update_async(request,id):
-        if request.method == "PUT":
+        if request.method == "PATCH":
             flavor = Flavor.objects.get(id=id)
-            flavor.units = request.POST.get("units")
+            flavor.units = request.data.get("units")
             flavor.save()
             flavor_api = Flavor_serializer(flavor,many=False)
             return Response(flavor_api.data)
@@ -43,3 +44,12 @@ def add_one(request,flavor,amount):
         return redirect('main')
     else:
         return Response({'ERROR':'faild to update'})
+    
+@api_view(["DELETE"])
+def delete(request):
+    flavor = Flavor.objects.get(pk = request.data.get("id"))
+    if flavor:
+        flavor.delete()
+        return Response({"DElETE":"SUCCES"})
+    else:
+        return Response({"ERROR":"SOMETHING WRONG"})

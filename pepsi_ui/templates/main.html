@@ -44,9 +44,14 @@
 
                         const theForm = e.target;
                         const parent = theForm.parentElement;
+                        const info = {"units":new FormData(theForm).get("units")};
                         fetch(`api/update/${parent.id}`,{
-                                method:"PUT",
-                                body:new FormData(e.target)
+                                method:"PATCH",
+                                headers:{
+                                        "Content-Type":"application/json",
+                                        'X-CSRFToken':`{{ csrf_token }}`
+                                },
+                                body:JSON.stringify(info)
                         }).then( ()=>                    
                         fetch(`api/id/${parent.id}`)
                         .then(response=>response.json())

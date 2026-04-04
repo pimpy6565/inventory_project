@@ -39,3 +39,6 @@ def update_form(request):
         form = update_forms()
         return render(request,'form.html',{'form':form})
     
+def delete_flavor(request):
+    
+    return render(request,"delete.html")
