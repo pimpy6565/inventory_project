@@ -45,7 +45,7 @@
                         const theForm = e.target;
                         const parent = theForm.parentElement;
                         fetch(`api/update/${parent.id}`,{
-                                method:"POST",
+                                method:"PUT",
                                 body:new FormData(e.target)
                         }).then( ()=>                    
                         fetch(`api/id/${parent.id}`)

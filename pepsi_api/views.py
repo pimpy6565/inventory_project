@@ -12,24 +12,29 @@ from . import api
 def data(request):
     #return JsonResponse(api.show())
     flavor = Flavor.objects.all()
-    flavor_api = Flavor_serializer(flavor)
-    return Response(flavor_api)
+    flavor_api = Flavor_serializer(flavor,many=True)
+    return Response(flavor_api.data)
 
+@api_view(["GET"])
 def getid(request,id):
     try:
         flavor = Flavor.objects.get(id=id)
-        return JsonResponse({'flavor':flavor.name,'units':flavor.units,'posting_number':flavor.posting_number})
+        flavor_api = Flavor_serializer(flavor,many=False)
+        return Response(flavor_api.data)
     
     except Exception as e:
-        return JsonResponse({'error':e})
+        return Response({'error':"Dont Exist"})
 
+@api_view(["PUT"])
 def update_async(request,id):
-        if request.method == "POST":
+        if request.method == "PUT":
             flavor = Flavor.objects.get(id=id)
             flavor.units = request.POST.get("units")
             flavor.save()
-            return JsonResponse({'flavor':flavor.name,'units':flavor.units,'posting_number':flavor.posting_number})
-        
+            flavor_api = Flavor_serializer(flavor,many=False)
+            return Response(flavor_api.data)
+
+@api_view(["GET"])        
 def add_one(request,flavor,amount):
     if request.method == "GET":
         flavor = Flavor.objects.get(name__iexact=flavor)
@@ -37,4 +42,4 @@ def add_one(request,flavor,amount):
         flavor.save()
         return redirect('main')
     else:
-        return JsonResponse({'ERROR':'faild to update'})
+        return Response({'ERROR':'faild to update'})
