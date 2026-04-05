@@ -1,10 +1,12 @@
 <header class="titlebarme" >
-    <a class="nav-item" href="{% url 'main' %}">🧭</a>
+    <a class="nav-item" href="{% url 'main' %}">Nav Bar</a>
     <button class="ham">꓿</button>
     
 </header>
 <div class="menu">
-    <a class="nav-item" href="{% url 'update_form' %}">Add Item</a>
-    <span>------</span>
-    <a class="nav-item" href="{% url 'delete_flavor' %}">DELETE</a>
+    <a class="nav-item" href="{% url 'update_form' %}">Add Item</a><br>
+    <span>------</span><br>
+    <a class="nav-item" href="{% url 'delete_flavor' %}">DELETE</a><br>
+    <span>------</span><br>
+    <a class="nav-item" href="{% url 'flavor-list' %}">API VIEWER</a>
 </div>
