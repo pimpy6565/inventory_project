@@ -53,3 +53,20 @@ def delete(request):
         return Response({"DElETE":"SUCCES"})
     else:
         return Response({"ERROR":"SOMETHING WRONG"})
+    
+@api_view(["POST"])
+def create_flavor(request):
+    try:
+        name = request.data.get("name")
+        units = request.data.get("units")
+        posting = request.data.get("posting_number")
+        
+        flavor = Flavor.objects.create(
+            name=name,
+            units=units,
+            posting_number=posting
+        )
+        serializer = Flavor_serializer(flavor)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

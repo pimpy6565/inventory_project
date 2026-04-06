@@ -11,5 +11,6 @@ urlpatterns = [
     path("update/<int:id>",views.update_async,name='updateapi'),
     path("add/<str:flavor>/<int:amount>",views.add_one,name='add'),
     path("delete",views.delete,name="deletes"),
-    path("menu",include(router.urls))
+    path("menu",include(router.urls)),
+    path("create", views.create_flavor, name="create_flavor")
 ]
